@@ -10,6 +10,12 @@ VS Code / Antigravity extension for sharing local Herd, Valet, MAMP and manually
 - Run `cloudflared tunnel login` for Cloudflare authorization.
 - Create and route a named tunnel for a custom Cloudflare hostname.
 
+## Running locally
+
+This repository keeps the compiled `dist/` entrypoint committed because VS Code and Antigravity load `package.json#main` directly from `./dist/extension.js`. After TypeScript changes, run `npm run compile` before installing or launching the extension.
+
+If `cloudflared` is not on your PATH, use the gear icon in the LocalFlare side panel to select the executable. LocalFlare also checks common Homebrew/Linux install paths automatically.
+
 ## Development plan
 
 1. Harden scanners with fixture-driven tests for Herd/Valet/MAMP config variants across macOS, Linux, and Windows.

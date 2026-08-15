@@ -22,31 +22,44 @@
     "commands": [
       {
         "command": "localflare.scanDomains",
-        "title": "LocalFlare: Scan Local Domains"
+        "title": "Refresh",
+        "icon": "$(refresh)"
       },
       {
         "command": "localflare.startQuickTunnel",
-        "title": "LocalFlare: Start Free Quick Tunnel"
+        "title": "Start",
+        "icon": "$(play)"
       },
       {
         "command": "localflare.loginCloudflare",
-        "title": "LocalFlare: Login to Cloudflare"
+        "title": "Login",
+        "icon": "$(account)"
       },
       {
         "command": "localflare.startNamedTunnel",
-        "title": "LocalFlare: Start Custom Domain Tunnel"
+        "title": "Custom",
+        "icon": "$(globe)"
       },
       {
         "command": "localflare.stopTunnel",
-        "title": "LocalFlare: Stop Active Tunnel"
+        "title": "Stop",
+        "icon": "$(debug-stop)"
       },
       {
         "command": "localflare.startQuickTunnelFromItem",
-        "title": "LocalFlare: Start Quick Tunnel for Selected Domain"
+        "title": "Start",
+        "icon": "$(play)"
       },
       {
         "command": "localflare.startNamedTunnelFromItem",
-        "title": "LocalFlare: Start Custom Domain Tunnel for Selected Domain"
+        "title": "Custom",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "localflare.configureCloudflared",
+        "title": "Cloudflared Path",
+        "icon": "$(settings-gear)"
+
       }
     ],
     "viewsContainers": {
@@ -107,6 +120,12 @@
           "group": "navigation"
         },
         {
+          "command": "localflare.configureCloudflared",
+          "when": "view == localflare.domains",
+          "group": "navigation"
+        },
+        {
+
           "command": "localflare.stopTunnel",
           "when": "view == localflare.domains",
           "group": "navigation"
@@ -136,3 +155,4 @@
     "typescript": "^5.4.5"
   }
 }
+
