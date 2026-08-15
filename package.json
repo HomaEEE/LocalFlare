@@ -59,6 +59,7 @@
         "command": "localflare.configureCloudflared",
         "title": "Cloudflared Path",
         "icon": "$(settings-gear)"
+
       }
     ],
     "viewsContainers": {
@@ -124,6 +125,7 @@
           "group": "navigation"
         },
         {
+
           "command": "localflare.stopTunnel",
           "when": "view == localflare.domains",
           "group": "navigation"
@@ -153,3 +155,4 @@
     "typescript": "^5.4.5"
   }
 }
+

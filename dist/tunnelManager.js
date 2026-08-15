@@ -43,6 +43,7 @@ const COMMON_CLOUDFLARED_PATHS = [
     '/usr/bin/cloudflared',
     '/snap/bin/cloudflared',
 ];
+
 class TunnelManager {
     process;
     activeTunnel;
@@ -66,6 +67,7 @@ class TunnelManager {
         await vscode.workspace.getConfiguration('localflare').update('cloudflaredPath', selected, vscode.ConfigurationTarget.Global);
         vscode.window.showInformationMessage(`LocalFlare cloudflared path set to ${selected}`);
     }
+
     async login() {
         await this.runOneShot(['tunnel', 'login']);
     }
@@ -81,6 +83,7 @@ class TunnelManager {
         };
         this.changeEmitter.fire();
         await this.start(['tunnel', '--url', domain.origin], `Quick tunnel for ${domain.host}`);
+
     }
     async startNamedTunnel(domain, hostname, tunnelName) {
         this.stop();
@@ -98,6 +101,7 @@ class TunnelManager {
         };
         this.changeEmitter.fire();
         await this.start(['tunnel', 'run', '--url', domain.origin, tunnelName], `${hostname} → ${domain.origin}`);
+
     }
     stop() {
         if (this.process) {
@@ -116,6 +120,7 @@ class TunnelManager {
             this.markFailed();
             return;
         }
+
         this.output.show(true);
         this.output.appendLine(`Starting ${label}`);
         this.output.appendLine(`$ ${executable} ${args.join(' ')}`);
@@ -123,6 +128,7 @@ class TunnelManager {
         this.process.stdout.on('data', (data) => this.handleOutput(data.toString()));
         this.process.stderr.on('data', (data) => this.handleOutput(data.toString()));
         this.process.on('error', (error) => this.handleProcessError(error));
+
         this.process.on('exit', (code) => {
             this.output.appendLine(`cloudflared exited with code ${code ?? 'unknown'}.`);
             if (this.activeTunnel && this.activeTunnel.status !== 'stopped') {
@@ -151,6 +157,7 @@ class TunnelManager {
         const executable = await this.resolveCloudflaredExecutable();
         if (!executable)
             throw new Error('cloudflared executable is not configured.');
+
         this.output.show(true);
         this.output.appendLine(`$ ${executable} ${args.join(' ')}`);
         await new Promise((resolve, reject) => {
@@ -162,6 +169,7 @@ class TunnelManager {
                 this.handleProcessError(error);
                 reject(error);
             });
+
             child.on('exit', (code) => {
                 if (code === 0 || (tolerateExisting && /already exists|already has/i.test(combined)))
                     resolve();
@@ -216,4 +224,5 @@ async function isExecutable(file) {
         return false;
     }
 }
+
 //# sourceMappingURL=tunnelManager.js.map

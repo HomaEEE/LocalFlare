@@ -1,5 +1,6 @@
 import { ChildProcessWithoutNullStreams, spawn } from 'node:child_process';
 import * as fs from 'node:fs/promises';
+
 import * as vscode from 'vscode';
 import { LocalDomain } from './domainScanner';
 
@@ -24,6 +25,7 @@ const COMMON_CLOUDFLARED_PATHS = [
   '/snap/bin/cloudflared',
 ];
 
+ main
 export class TunnelManager {
   private process?: ChildProcessWithoutNullStreams;
   private activeTunnel?: ActiveTunnel;
@@ -50,6 +52,7 @@ export class TunnelManager {
     vscode.window.showInformationMessage(`LocalFlare cloudflared path set to ${selected}`);
   }
 
+
   async login(): Promise<void> {
     await this.runOneShot(['tunnel', 'login']);
   }
@@ -66,6 +69,7 @@ export class TunnelManager {
     };
     this.changeEmitter.fire();
     await this.start(['tunnel', '--url', domain.origin], `Quick tunnel for ${domain.host}`);
+
   }
 
   async startNamedTunnel(domain: LocalDomain, hostname: string, tunnelName: string): Promise<void> {
@@ -84,6 +88,7 @@ export class TunnelManager {
     };
     this.changeEmitter.fire();
     await this.start(['tunnel', 'run', '--url', domain.origin, tunnelName], `${hostname} → ${domain.origin}`);
+
   }
 
   stop(): void {
@@ -105,6 +110,7 @@ export class TunnelManager {
       return;
     }
 
+
     this.output.show(true);
     this.output.appendLine(`Starting ${label}`);
     this.output.appendLine(`$ ${executable} ${args.join(' ')}`);
@@ -113,6 +119,7 @@ export class TunnelManager {
     this.process.stdout.on('data', (data: Buffer) => this.handleOutput(data.toString()));
     this.process.stderr.on('data', (data: Buffer) => this.handleOutput(data.toString()));
     this.process.on('error', (error) => this.handleProcessError(error));
+
     this.process.on('exit', (code) => {
       this.output.appendLine(`cloudflared exited with code ${code ?? 'unknown'}.`);
       if (this.activeTunnel && this.activeTunnel.status !== 'stopped') {
@@ -143,6 +150,7 @@ export class TunnelManager {
     const executable = await this.resolveCloudflaredExecutable();
     if (!executable) throw new Error('cloudflared executable is not configured.');
 
+
     this.output.show(true);
     this.output.appendLine(`$ ${executable} ${args.join(' ')}`);
 
@@ -155,12 +163,14 @@ export class TunnelManager {
         this.handleProcessError(error);
         reject(error);
       });
+
       child.on('exit', (code) => {
         if (code === 0 || (tolerateExisting && /already exists|already has/i.test(combined))) resolve();
         else reject(new Error(`cloudflared exited with code ${code ?? 'unknown'}`));
       });
     });
   }
+
 
   private async resolveCloudflaredExecutable(): Promise<string | undefined> {
     const configured = vscode.workspace.getConfiguration('localflare').get<string>('cloudflaredPath', 'cloudflared').trim();
@@ -209,4 +219,5 @@ async function isExecutable(file: string): Promise<boolean> {
   } catch {
     return false;
   }
+
 }

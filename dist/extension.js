@@ -50,7 +50,10 @@ function activate(context) {
         const domain = item instanceof LocalFlareItem ? item.domain : await pickDomain(provider);
         if (domain)
             await tunnelManager.startQuickTunnel(domain);
+
     }), vscode.commands.registerCommand('localflare.loginCloudflare', async () => tunnelManager.login()), vscode.commands.registerCommand('localflare.configureCloudflared', async () => tunnelManager.configureCloudflaredPath()), vscode.commands.registerCommand('localflare.startNamedTunnel', async () => startNamedTunnel(provider, tunnelManager)), vscode.commands.registerCommand('localflare.startNamedTunnelFromItem', async (item) => startNamedTunnel(provider, tunnelManager, item instanceof LocalFlareItem ? item.domain : undefined)), vscode.commands.registerCommand('localflare.stopTunnel', () => tunnelManager.stop()));
+
+
     provider.refresh();
 }
 function deactivate() { }
@@ -132,8 +135,10 @@ class DomainItem extends LocalFlareItem {
         this.description = domain.source;
         this.tooltip = domain.projectPath ? `${domain.origin}\n${domain.projectPath}` : domain.origin;
         this.contextValue = 'localflareDomain';
+
         this.iconPath = new vscode.ThemeIcon('play');
         this.command = { command: 'localflare.startQuickTunnelFromItem', title: 'Start', arguments: [this] };
+
     }
 }
 class TunnelItem extends LocalFlareItem {
@@ -142,6 +147,7 @@ class TunnelItem extends LocalFlareItem {
         this.tunnel = tunnel;
         this.description = tunnel.status;
         this.iconPath = new vscode.ThemeIcon(tunnel.status === 'online' ? 'radio-tower' : tunnel.status === 'failed' ? 'error' : 'debug-stop');
+
         this.tooltip = `${tunnel.origin}${tunnel.publicUrl ? `\n${tunnel.publicUrl}` : ''}`;
         this.contextValue = 'localflareTunnel';
     }

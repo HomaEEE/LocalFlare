@@ -1,5 +1,6 @@
 declare module 'node:fs/promises' {
   export function access(path: string): Promise<void>;
+
   export function readdir(path: string, options?: { withFileTypes?: boolean }): Promise<import('node:fs').Dirent[]>;
   export function readFile(path: string, encoding: string): Promise<string>;
 }
@@ -34,6 +35,7 @@ declare module 'vscode' {
     getConfiguration(section?: string): { get<T>(key: string, defaultValue: T): T; update(key: string, value: unknown, target?: ConfigurationTarget): Thenable<void> };
   };
   export enum ConfigurationTarget { Global = 1 }
+main
   export const window: {
     createOutputChannel(name: string): OutputChannel;
     registerTreeDataProvider<T>(viewId: string, provider: TreeDataProvider<T>): unknown;
@@ -47,6 +49,7 @@ declare module 'vscode' {
   export const commands: { registerCommand(command: string, callback: (...args: unknown[]) => unknown): unknown };
   export const env: { clipboard: { writeText(value: string): Thenable<void> }; openExternal(uri: Uri): Thenable<boolean> };
   export class Uri { fsPath: string; static parse(value: string): Uri; }
+main
   export interface OutputChannel { append(value: string): void; appendLine(value: string): void; show(preserveFocus?: boolean): void; }
   export interface QuickPickItem { label: string; description?: string; detail?: string; }
   export interface TreeDataProvider<T> { onDidChangeTreeData?: Event<T | undefined | null | void>; getTreeItem(element: T): TreeItem; getChildren(element?: T): ProviderResult<T[]>; }
@@ -55,6 +58,7 @@ declare module 'vscode' {
   export class EventEmitter<T> { event: Event<T>; fire(data?: T): void; }
   export enum TreeItemCollapsibleState { None = 0, Expanded = 1, Collapsed = 2 }
   export class ThemeIcon { constructor(id: string); }
+
   export class TreeItem {
     constructor(label: string, collapsibleState?: TreeItemCollapsibleState);
     description?: string;
@@ -66,3 +70,4 @@ declare module 'vscode' {
 }
 
 declare const process: { platform: string };
+
