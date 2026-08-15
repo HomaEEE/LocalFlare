@@ -4,8 +4,8 @@ VS Code / Antigravity extension for sharing local Herd, Valet, MAMP and manually
 
 ## MVP scope
 
-- Scan common local PHP development environments: Laravel Herd, Laravel Valet, MAMP, `/etc/hosts`, workspace `.env` `APP_URL`, and `localflare.extraDomains`.
-- Pick a local domain from a VS Code quick pick or the LocalFlare activity-bar view.
+- Scan common local PHP development environments: Laravel Herd, Laravel Valet, MAMP, `/etc/hosts`, workspace `.env` `APP_URL`, custom project roots such as `~/Sites`, and `localflare.extraDomains`.
+- Pick a local domain from a VS Code quick pick or the LocalFlare activity-bar side panel, grouped into local projects and active tunnels.
 - Start a free `trycloudflare.com` quick tunnel with `cloudflared tunnel --url <origin>`.
 - Run `cloudflared tunnel login` for Cloudflare authorization.
 - Create and route a named tunnel for a custom Cloudflare hostname.
@@ -24,3 +24,4 @@ VS Code / Antigravity extension for sharing local Herd, Valet, MAMP and manually
 - Should custom-domain automation use only `cloudflared` CLI, or may the extension also call the Cloudflare API with an API token?
 - Which OS is the first release target: macOS only, or macOS + Windows + Linux?
 - Should LocalFlare manage one active tunnel globally, or multiple simultaneous tunnels per workspace?
+- Which default project roots should ship besides `~/Sites`?

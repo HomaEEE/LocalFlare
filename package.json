@@ -7,7 +7,9 @@
   "engines": {
     "vscode": "^1.89.0"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "activationEvents": [
     "onCommand:localflare.scanDomains",
     "onCommand:localflare.startQuickTunnel",
@@ -18,20 +20,50 @@
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
-      { "command": "localflare.scanDomains", "title": "LocalFlare: Scan Local Domains" },
-      { "command": "localflare.startQuickTunnel", "title": "LocalFlare: Start Free Quick Tunnel" },
-      { "command": "localflare.loginCloudflare", "title": "LocalFlare: Login to Cloudflare" },
-      { "command": "localflare.startNamedTunnel", "title": "LocalFlare: Start Custom Domain Tunnel" },
-      { "command": "localflare.stopTunnel", "title": "LocalFlare: Stop Active Tunnel" }
+      {
+        "command": "localflare.scanDomains",
+        "title": "LocalFlare: Scan Local Domains"
+      },
+      {
+        "command": "localflare.startQuickTunnel",
+        "title": "LocalFlare: Start Free Quick Tunnel"
+      },
+      {
+        "command": "localflare.loginCloudflare",
+        "title": "LocalFlare: Login to Cloudflare"
+      },
+      {
+        "command": "localflare.startNamedTunnel",
+        "title": "LocalFlare: Start Custom Domain Tunnel"
+      },
+      {
+        "command": "localflare.stopTunnel",
+        "title": "LocalFlare: Stop Active Tunnel"
+      },
+      {
+        "command": "localflare.startQuickTunnelFromItem",
+        "title": "LocalFlare: Start Quick Tunnel for Selected Domain"
+      },
+      {
+        "command": "localflare.startNamedTunnelFromItem",
+        "title": "LocalFlare: Start Custom Domain Tunnel for Selected Domain"
+      }
     ],
     "viewsContainers": {
       "activitybar": [
-        { "id": "localflare", "title": "LocalFlare", "icon": "resources/localflare.svg" }
+        {
+          "id": "localflare",
+          "title": "LocalFlare",
+          "icon": "resources/localflare.svg"
+        }
       ]
     },
     "views": {
       "localflare": [
-        { "id": "localflare.domains", "name": "Local Domains" }
+        {
+          "id": "localflare.domains",
+          "name": "Local Domains"
+        }
       ]
     },
     "configuration": {
@@ -40,7 +72,9 @@
         "localflare.extraDomains": {
           "type": "array",
           "default": [],
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Additional local domains or origin URLs to offer for tunneling."
         },
         "localflare.defaultOriginPort": {
@@ -52,8 +86,44 @@
           "type": "string",
           "default": "cloudflared",
           "description": "Path to the cloudflared executable."
+        },
+        "localflare.projectRoots": {
+          "type": "array",
+          "default": [
+            "~/Sites"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Directories scanned for local projects. Use ~ for the home directory."
         }
       }
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "localflare.scanDomains",
+          "when": "view == localflare.domains",
+          "group": "navigation"
+        },
+        {
+          "command": "localflare.stopTunnel",
+          "when": "view == localflare.domains",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "localflare.startQuickTunnelFromItem",
+          "when": "view == localflare.domains && viewItem == localflareDomain",
+          "group": "inline"
+        },
+        {
+          "command": "localflare.startNamedTunnelFromItem",
+          "when": "view == localflare.domains && viewItem == localflareDomain",
+          "group": "localflare"
+        }
+      ]
     }
   },
   "scripts": {

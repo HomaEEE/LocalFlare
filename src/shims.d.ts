@@ -8,7 +8,8 @@ declare module 'node:fs' {
 }
 
 declare module 'node:os' { export function homedir(): string; }
-declare module 'node:path' { export function join(...parts: string[]): string; }
+declare module 'node:path' { export function join(...parts: string[]): string;
+  export function basename(path: string): string; }
 
 declare module 'node:child_process' {
   interface Stream { on(event: 'data', listener: (data: Buffer) => void): void; }
@@ -48,12 +49,12 @@ declare module 'vscode' {
   export type ProviderResult<T> = T | undefined | null | Thenable<T | undefined | null>;
   export interface Event<T> { (listener: (e: T) => unknown): unknown; }
   export class EventEmitter<T> { event: Event<T>; fire(data?: T): void; }
-  export enum TreeItemCollapsibleState { None = 0 }
+  export enum TreeItemCollapsibleState { None = 0, Expanded = 1, Collapsed = 2 }
   export class TreeItem {
     constructor(label: string, collapsibleState?: TreeItemCollapsibleState);
     description?: string;
     tooltip?: string;
     contextValue?: string;
-    command?: { command: string; title: string };
+    command?: { command: string; title: string; arguments?: unknown[] };
   }
 }
